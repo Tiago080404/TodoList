@@ -33,15 +33,13 @@ createApp({
       localStorage.setItem("tasklist", JSON.stringify(this.tasklist));
     },
     getList() {
-      if (localStorage === "") {
-        (this.inputTasks = null),
-          (this.tasklist = []),
-          (this.finishedTasks = []);
+      const store = localStorage.getItem("tasklist");
+      if (store) {
+        this.tasklist = JSON.parse(store);
       } else {
-        let store = localStorage.getItem("tasklist");
-        /*JSON.parse(store);
-        console.log(store);
-        this.tasklist.push(store);*/
+        this.tasklist = [];
+        this.finishedTasks = [];
+        this.inputTasks = null;
       }
     },
   },

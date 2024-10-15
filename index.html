@@ -29,6 +29,40 @@
         <div class="row mb-3 mt-3">
           <div class="col">
             <div class="input-group mb-3">
+              <!-- Example split danger button -->
+              <div class="btn-group">
+                <button type="button" class="btn btn-danger">Action</button>
+                <button
+                  type="button"
+                  class="btn btn-danger dropdown-toggle dropdown-toggle-split"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="#"
+                      ><input
+                        v-model.lazy="inputValue"
+                        type="text"
+                        placeholder="Add a new List to save"
+                      />
+                      <!-- @change="newListTasks"-->
+                    </a>
+                  </li>
+                  <li class="dropdown-item" v-for="listTask in storageList">
+                    {{ listTask }}
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </li>
+                  <li><hr class="dropdown-divider" /></li>
+                  <li><a class="dropdown-item" href="#">Separated link</a></li>
+                </ul>
+              </div>
+
+              <button v-on:click="getList">Get List</button>
               <input
                 type="text"
                 class="form-control form-control-lg"
@@ -47,6 +81,7 @@
         <div class="row">
           <div class="col">
             <ul id="ul-to-do" class="list-group">
+              <p v-if="showUnfinishedTasks">unfinished Tasks:</p>
               <li
                 class="list-group-item"
                 v-for="(item, index) in tasklist"
@@ -60,7 +95,7 @@
                 />
                 {{ item.text }}
               </li>
-              <p>Done Tasks:</p>
+              <p v-if="showFinishedTasks">Done Tasks:</p>
               <li
                 class="list-group-item"
                 v-for="(finishedItem, index) in finishedTasks"
@@ -77,7 +112,6 @@
             </ul>
           </div>
         </div>
-        <button v-on:click="getList">Get List</button>
       </div>
     </div>
   </body>

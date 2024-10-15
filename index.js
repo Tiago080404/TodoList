@@ -5,7 +5,18 @@ createApp({
       inputTasks: null,
       tasklist: [],
       finishedTasks: [],
+      inputValue: "",
+      storageList: [],
+      currenIndex: null,
     };
+  },
+  computed: {
+    showFinishedTasks() {
+      return this.finishedTasks.length > 0;
+    },
+    showUnfinishedTasks() {
+      return this.tasklist.length > 0;
+    },
   },
   methods: {
     addTask() {
@@ -36,11 +47,13 @@ createApp({
       const store = localStorage.getItem("tasklist");
       if (store) {
         this.tasklist = JSON.parse(store);
-      } else {
-        this.tasklist = [];
-        this.finishedTasks = [];
-        this.inputTasks = null;
       }
     },
+    /* newListTasks() {
+      if (this.inputValue) {
+        this.storageList.push({ name: this.inputValue, tasks: [] });
+      }
+    },
+    clickSavedTask() {},*/
   },
 }).mount("#app");

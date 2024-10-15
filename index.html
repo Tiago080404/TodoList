@@ -47,12 +47,21 @@
                         v-model.lazy="inputValue"
                         type="text"
                         placeholder="Add a new List to save"
+                        @change="newListTasks"
+                        @change="loadStorage"
                       />
-                      <!-- @change="newListTasks"-->
+                      <!-- -->
                     </a>
                   </li>
-                  <li class="dropdown-item" v-for="listTask in storageList">
-                    {{ listTask }}
+                  <li
+                    class="dropdown-item"
+                    v-for="(list, index) in storageList"
+                    :key="index"
+                    v-on:click="switchList(index)"
+                    style="cursor: pointer"
+                    @change="loadStorage"
+                  >
+                    {{ list.name }}
                   </li>
                   <li>
                     <a class="dropdown-item" href="#">Something else here</a>
@@ -60,6 +69,7 @@
                   <li><hr class="dropdown-divider" /></li>
                   <li><a class="dropdown-item" href="#">Separated link</a></li>
                 </ul>
+                <p>{{ showCurrentList }}</p>
               </div>
 
               <button v-on:click="getList">Get List</button>
@@ -84,7 +94,7 @@
               <p v-if="showUnfinishedTasks">unfinished Tasks:</p>
               <li
                 class="list-group-item"
-                v-for="(item, index) in tasklist"
+                v-for="(item, index) in checkIndexOfTask"
                 :key="index"
               >
                 <input
@@ -93,7 +103,7 @@
                   v-model="item.completed"
                   @change="removeTask(index)"
                 />
-                {{ item.text }}
+                {{ item.text}}
               </li>
               <p v-if="showFinishedTasks">Done Tasks:</p>
               <li

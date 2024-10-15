@@ -7,21 +7,43 @@ createApp({
       finishedTasks: [],
       inputValue: "",
       storageList: [],
-      currenIndex: null,
+      currentIndex: null,
     };
   },
   computed: {
+    checkIndexOfTask() {
+      return this.currentIndex !== null
+        ? this.storageList[this.currentIndex].tasks
+        : [];
+    },
+
     showFinishedTasks() {
       return this.finishedTasks.length > 0;
     },
     showUnfinishedTasks() {
       return this.tasklist.length > 0;
     },
+    showCurrentList() {
+      if (this.currentIndex == null) {
+        return "";
+      }
+      return this.storageList[this.currentIndex].name;
+    },
   },
   methods: {
     addTask() {
-      this.tasklist.push({ text: this.inputTasks, completed: false });
-      this.inputTasks = null;
+      if (this.inputTasks && this.currentIndex !== null) {
+        this.storageList[this.currentIndex].tasks.push({
+          text: this.inputTasks,
+          completed: false,
+          /* this.storageList[this.currentIndex].tasks.push({
+            text: this.in
+          })*/
+        });
+        (this.inputTasks = null), this.saveStorage();
+      }
+      /*this.tasklist.push({ text: this.inputTasks, completed: false });
+      this.inputTasks = null;*/
     },
     removeTask(index) {
       const completedTask = this.tasklist[index];
@@ -41,19 +63,39 @@ createApp({
       this.finishedTasks = [];
     },
     saveList() {
-      localStorage.setItem("tasklist", JSON.stringify(this.tasklist));
+      //localStorage.setItem("tasklist", JSON.stringify(this.tasklist));
+      this.saveStorage();
     },
+
+    saveStorage() {
+      localStorage.setItem("tasklists", JSON.stringify(this.storageList));
+    },
+
+    loadStorage() {
+      const store = localStorage.getItem("tasklists");
+      if (store) {
+        this.storageList = JSON.parse(store);
+      }
+    },
+
     getList() {
       const store = localStorage.getItem("tasklist");
       if (store) {
         this.tasklist = JSON.parse(store);
       }
     },
-    /* newListTasks() {
+    newListTasks() {
       if (this.inputValue) {
         this.storageList.push({ name: this.inputValue, tasks: [] });
+        this.inputValue = "";
+        this.saveStorage();
       }
     },
-    clickSavedTask() {},*/
+    switchList(index) {
+      this.currentIndex = index;
+    },
+  },
+  mounted() {
+    this.loadStorage();
   },
 }).mount("#app");

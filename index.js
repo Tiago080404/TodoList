@@ -42,8 +42,8 @@ createApp({
         });
         (this.inputTasks = null), this.saveStorage();
       }
-      /*this.tasklist.push({ text: this.inputTasks, completed: false });
-      this.inputTasks = null;*/
+      this.tasklist.push({ text: this.inputTasks, completed: false });
+      this.inputTasks = null;
     },
     removeTask(index) {
       const completedTask = this.tasklist[index];

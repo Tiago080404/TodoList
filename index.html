@@ -95,6 +95,7 @@
               <li
                 class="list-group-item"
                 v-for="(item, index) in checkIndexOfTask"
+                v-for="task in taskList"
                 :key="index"
               >
                 <input
@@ -103,7 +104,7 @@
                   v-model="item.completed"
                   @change="removeTask(index)"
                 />
-                {{ item.text}}
+                {{ item.text}}{{ task.text }}
               </li>
               <p v-if="showFinishedTasks">Done Tasks:</p>
               <li

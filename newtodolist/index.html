@@ -30,7 +30,7 @@
 
       <div class="row">
         <div class="col" class="list-group">
-          <li v-for="task in taskList">{{ task }}</li>
+          <li v-for="task in currentTasks">{{ task.text }}</li>
         </div>
       </div>
 
@@ -53,7 +53,13 @@
               @change="addNewTaskList"
             />
           </li>
-          <li class="dropdown-item" v-for="item in storageList" v-on:click="">
+          <li
+            class="dropdown-item"
+            v-for="(item,index) in storageList"
+            :key="index"
+            v-on:click="switchList(index)"
+            :class="{'text-info': currentStorageIndex === index}"
+          >
             {{ item.listName }}
           </li>
           <li><a class="dropdown-item" href="#">Another action</a></li>

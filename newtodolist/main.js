@@ -7,26 +7,25 @@ createApp({
       storageInput: "",
       taskList: [],
       storageList: [],
-      currentStorageIndex: null,
+      currentStorageIndex: 0,
+      isActive: false,
     };
   },
 
   computed: {
-    checkIndexOfTask() {
-      if (this.currentStorageIndex === null) {
-        this.currentStorageIndex = 0;
-      }
+    currentTasks() {
+      return this.storageList[this.currentStorageIndex].tasks;
     },
   },
 
   methods: {
     addTask() {
-      if (this.inputTask == "") {
-        return;
-      } else {
-        this.storageList[currentStorageIndex].tasks.push({
+      if (this.inputTask && this.currentStorageIndex !== null) {
+        console.log("work");
+        this.storageList[this.currentStorageIndex].tasks.push({
           text: this.inputTask,
         });
+        (this.inputTasks = null), this.saveStorage();
       }
     },
     addNewTaskList() {
@@ -42,13 +41,17 @@ createApp({
       const store = localStorage.getItem("savedList");
       if (!store) {
         this.storageList.push({ listName: "meinListe", tasks: [] });
-        localStorage.setItem("meinListe", JSON.stringify(this.storageList));
       } else {
         this.storageList = JSON.parse(store);
       }
     },
+    switchList(index) {
+      this.currentStorageIndex = index;
+      console.log(this.currentStorageIndex);
+      this.isActive = !this.isActive;
+    },
   },
-  mounted() {
+  created() {
     this.loadStorage();
   },
 }).mount("#app");

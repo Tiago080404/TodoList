@@ -5,10 +5,10 @@ createApp({
     return {
       inputTask: "",
       storageInput: "",
-      taskList: [],
+      //taskList: [],
       storageList: [],
       currentStorageIndex: 0,
-      isActive: false,
+      //isActive: false,
     };
   },
 
@@ -22,10 +22,12 @@ createApp({
     addTask() {
       if (this.inputTask && this.currentStorageIndex !== null) {
         console.log("work");
-        this.storageList[this.currentStorageIndex].tasks.push({
+        this.currentTasks.push({
           text: this.inputTask,
+          isChecked: false,
         });
-        (this.inputTasks = null), this.saveStorage();
+        this.inputTasks = null;
+        this.saveStorage();
       }
     },
     addNewTaskList() {
@@ -48,7 +50,24 @@ createApp({
     switchList(index) {
       this.currentStorageIndex = index;
       console.log(this.currentStorageIndex);
-      this.isActive = !this.isActive;
+      //this.isActive = !this.isActive;
+    },
+
+    moveTaskToEnd(task) {
+      const index = this.currentTasks.indexOf(task);
+      if (task.isChecked) {
+        this.currentTasks.splice(index, 1); // Remove from current position
+        this.currentTasks.push(task); // Add to end of the list
+      } else {
+        this.currentTasks.splice(index, 1);
+        this.currentTasks.unshift(task);
+      }
+      this.saveStorage();
+    },
+    deleteTask(task) {
+      const index = this.currentTasks.indexOf(task);
+      this.currentTasks.splice(index, 1);
+      this.saveStorage();
     },
   },
   created() {

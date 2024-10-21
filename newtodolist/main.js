@@ -9,6 +9,7 @@ createApp({
       storageList: [],
       currentStorageIndex: 0,
       //isActive: false,
+      isDarkMode: false,
     };
   },
 
@@ -19,6 +20,13 @@ createApp({
   },
 
   methods: {
+    toggleDarkMode() {
+      this.isDarkMode = !this.isDarkMode;
+      console.log("Dark mode status:", this.isDarkMode); // Debugging log
+      document.body.classList.toggle("dark-mode", this.isDarkMode);
+      localStorage.setItem("darkMode", this.isDarkMode); // Save the state
+    },
+
     addTask() {
       if (this.inputTask && this.currentStorageIndex !== null) {
         console.log("work");
@@ -26,7 +34,7 @@ createApp({
           text: this.inputTask,
           isChecked: false,
         });
-        this.inputTasks = null;
+        this.inputTask = "";
         this.saveStorage();
       }
     },
@@ -72,5 +80,10 @@ createApp({
   },
   created() {
     this.loadStorage();
+    const saveMode = localStorage.getItem("darkMode");
+    if (saveMode === "true") {
+      this.isDarkMode = true;
+      document.body.classList.add("dark-mode");
+    }
   },
 }).mount("#app");

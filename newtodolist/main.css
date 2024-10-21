@@ -1,0 +1,11 @@
+/* main.css */
+body.dark-mode {
+    background-color: #121212;
+    color: white;
+}
+
+.list-group-item.dark-mode {
+    background-color: #1e1e1e;
+    color: white;
+}
+ 

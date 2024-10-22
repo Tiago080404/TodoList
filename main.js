@@ -30,7 +30,7 @@ createApp({
     addTask() {
       if (this.inputTask && this.currentStorageIndex !== null) {
         console.log("work");
-        this.currentTasks.push({
+        this.currentTasks.unshift({
           text: this.inputTask,
           isChecked: false,
         });
